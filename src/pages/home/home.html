@@ -1,14 +1,40 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>
-      Ionic Blank
+      ToDoList
     </ion-title>
+    <ion-buttons start>
+      <button ion-button color="light" (click)="btnSignout()">Signout</button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button color="light" (click)="btnHistory()">History</button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content>
+  <ion-list>
+    <ion-item *ngIf="todos == null || todos == ''">
+      <p text-center>No ToDoList found</p>
+    </ion-item>
+    <ion-item-sliding *ngFor="let list of todos">
+      <ion-item>
+        <h2>{{ list.todoNote }}</h2>
+        <p text-right>{{ list.todoDate }} & {{ list.todoTime }}</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="btnDelete(list.todoID)">Delete</button>
+        <button ion-button color="secondary" (click)="btnEdit(list.todoID)">Edit</button>
+      </ion-item-options>
+      <ion-item-options side="left">
+        <button ion-button color="primary" (click)="btnDone(list.todoID)">Done</button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-fab right bottom>
+    <button ion-fab color="primary" (click)="btnAdd()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

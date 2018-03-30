@@ -1,0 +1,33 @@
+<!--
+  Generated template for the EditPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Edit ToDoList</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>ToDoList</ion-label>
+      <ion-textarea [(ngModel)]="data.note"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Due Date</ion-label>
+      <ion-datetime displayFormat="DD/MMMM/YYYY" pickerFormat="DD MMMM YYYY" [(ngModel)]="data.date"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Time</ion-label>
+      <ion-datetime displayFormat="hh:mm A" pickerFormat="hh mm A" [(ngModel)]="data.time"></ion-datetime>
+    </ion-item>
+    <br>
+    <button ion-button block color="primary" (click)="btnUpdate()">Update</button>
+  </ion-list>
+</ion-content>

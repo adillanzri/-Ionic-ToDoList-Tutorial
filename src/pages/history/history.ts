@@ -1,35 +1,34 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ToastController, AlertController } from 'ionic-angular';
-import { HistoryPage } from '../history/history';
-import { EditPage } from '../edit/edit';
-import { AddPage } from '../add/add';
-import { AuthProvider } from '../../providers/auth/auth';
-import { SigninPage } from '../signin/signin';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController } from 'ionic-angular';
 import { TodoProvider } from '../../providers/todo/todo';
+import { HomePage } from '../home/home';
 
+/**
+ * Generated class for the HistoryPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+
+@IonicPage()
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-history',
+  templateUrl: 'history.html',
 })
-export class HomePage {
+export class HistoryPage {
 
   todos = [];
 
-  constructor(public navCtrl: NavController, public authService: AuthProvider, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public alertCtrl: AlertController, public todoService:TodoProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public todoService: TodoProvider, public toastCtrl: ToastController, public alertCtrl: AlertController) {
     let loader = this.loadingCtrl.create({
-      content: "Todo loading..."
+      content: "History loading..."
     })
 
     loader.present();
-    this.todoService.getTodo().then((res: any) =>{
+    this.todoService.getHistory().then((res: any) =>{
       loader.dismiss();
       this.todos = res;
     })
-
-  }
-
-  btnHistory(){
-    this.navCtrl.push(HistoryPage);
   }
 
   confirmDelete(id){
@@ -79,11 +78,7 @@ export class HomePage {
     confirm.present();
   }
 
-  btnEdit(id){
-    this.navCtrl.push(EditPage, {editID: id});
-  }
-
-  btnDone(id){
+  btnUndone(id){
     let loader = this.loadingCtrl.create({
       content: "Status Loading..."
     })
@@ -98,44 +93,11 @@ export class HomePage {
     })
 
     loader.present();
-    this.todoService.doneTodo(id).then((res: any) =>{
+    this.todoService.undoneTodo(id).then((res: any) =>{
       if(res.success){
         loader.dismiss();
         toast.present();
         this.navCtrl.setRoot(HomePage);
-      }
-      else{
-        loader.dismiss();
-        alert.setMessage(res);
-        alert.present();
-      }
-    })
-  }
-
-  btnAdd(){
-    this.navCtrl.push(AddPage);
-  }
-
-  btnSignout(){
-    let loader = this.loadingCtrl.create({
-      content: "Signout loading..."
-    })
-
-    let toast = this.toastCtrl.create({
-      message: "Signout success",
-      duration: 3000
-    })
-
-    let alert = this.alertCtrl.create({
-      buttons: ["Dismiss"]
-    })
-
-    loader.present();
-    this.authService.signout().then((res: any) =>{
-      if(res.success){
-        loader.dismiss();
-        toast.present();
-        this.navCtrl.setRoot(SigninPage);
       }
       else{
         loader.dismiss();
